@@ -1,2 +1,2 @@
-# BSAMTBGAn (Belgian SouthAfrican MycoBacterium Tuberculosi GenomeAnnotation)
+# BSAMTBGan (Belgian SouthAfrican MycoBacterium Tuberculosi GenomeAnnotation)
 Python pipeline for MTB reference based genome assembly
