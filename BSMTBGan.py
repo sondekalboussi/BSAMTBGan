@@ -47,9 +47,9 @@ class BSMTBan(object):
     
     def process_ref_genome(self):
             print ("""
-            ==================================================================
-			   Reference genomes processing for the annotation is starting"!
-			==================================================================
+            ============================================================================
+		Reference genomes processing for the annotation is starting"!
+	    ============================================================================
             """)        
         #prepare the ref genome to be used for the mapping and GATK
             for ref_genome in os.listdir(self.ref_gen_Dir):
@@ -71,9 +71,9 @@ class BSMTBan(object):
         next(file, None)
         if self.BWA_mem:
             print ("""
-            ========================================================
-			 The trimming and BWA mem mapping start now!
-			========================================================
+              ========================================================
+		   The trimming and BWA mem mapping start now!
+	      ========================================================
             """)
             if not os.path.isdir(self.BWA_mem_map_output+"/Trimming"):
                     os.makedirs(self.BWA_mem_map_output+"/Trimming") 
@@ -113,8 +113,8 @@ class BSMTBan(object):
                           os.system("""{}/bwa mem -M -t 16 -R {} {}.fasta {} {} - | {}/samtools view -Sb - | {}/samtool sort - | {}/samtools index - > {}""".format(self.bwa,readGroup,self.ref_genome,output1,output3,self.samtools,self.samtools,self.samtools,output_map))        
         if self.Novoalign:
             print ("""
-            ========================================================
-			 The trimming and Novoalign mapping start now!
+                        ========================================================
+			      The trimming and Novoalign mapping start now!
 			========================================================
             """)
             if not os.path.isdir(self.novo_align_map_output+"/Trimming"):
@@ -156,8 +156,8 @@ class BSMTBan(object):
           if self.BWA_mem:
               print ("""
             ==================================================================================================
-			 BWA_mem: realignment around the indels usong GATK, the final output is a sorted indexed Bam file"
-			==================================================================================================
+	     BWA_mem: realignment around the indels usong GATK, the final output is a sorted indexed Bam file"
+	    ==================================================================================================
             """)
               for fl in os.listdir(self.BWA_mem_map_output+"/Alignment/"):
                   os.chdir(self.BWA_mem_map_output+"/Alignment/")
@@ -172,8 +172,8 @@ class BSMTBan(object):
           if self.Novoalign:
               print ("""
             ==================================================================================================
-			Novoalign: realignment around the indels usong GATK, the final output is a sorted indexed Bam file
-			==================================================================================================
+	    Novoalign: realignment around the indels usong GATK, the final output is a sorted indexed Bam file
+	    ==================================================================================================
             """)                    
               for fl in os.listdir(self.novo_align_map_output+"/Alignment/"):
                   os.chdir(self.novo_align_map_output+"/Alignment/")
@@ -192,8 +192,8 @@ class BSMTBan(object):
           if self.BWA_mem:
              print ("""
             =================================================================
-			  BWA_mem alignment base quality score recalibration starts now!
-			=================================================================
+	     BWA_mem alignment base quality score recalibration starts now!
+	    =================================================================
             """)                     
               for fl in os.listdir(self.BWA_mem_map_output+"/Alignment/"):
                   os.chdir(self.BWA_mem_map_output+"/Alignment/")
@@ -223,9 +223,9 @@ class BSMTBan(object):
         #mark the duplicates
             if self.BWA_mem:
                  print ("""
-            ==================================================================
-			  BWA_mem alignment PCR duplication marking and removal begins!
-			==================================================================
+                ==================================================================
+	          BWA_mem alignment PCR duplication marking and removal begins!
+		==================================================================
             """)                      
                 for fl in os.listdir(self.BWA_mem_map_output+"/Alignment/"):         
                     os.chdir(self.BWA_mem_map_output+"/Alignment/")
@@ -268,7 +268,7 @@ class BSMTBan(object):
              if sample.count(element)==1:
                 print ("""            
                     =====================================================================
-                     No Bam files to be merged!
+                                         No Bam files to be merged!
                     =====================================================================  
                     """)            
                 break
@@ -277,7 +277,7 @@ class BSMTBan(object):
                   if self.BWA_mem:        
                        print ("""            
                       =====================================================================
-                       BWA_mem BAM paired end files merging begins!
+                                  BWA_mem BAM paired end files merging begins!
                       =====================================================================  
                       """)
                        for fl in os.listdir(self.BWA_mem_map_output+"/Alignment/"):
@@ -298,7 +298,7 @@ class BSMTBan(object):
                     if self.Novoalign: 
                           print ("""            
                           =====================================================================
-                           Novoalign BAM paired end files merging begins!
+                                      Novoalign BAM paired end files merging begins!
                           =====================================================================  
                           """)       
  
@@ -321,7 +321,7 @@ class BSMTBan(object):
              if sample.count(element)==1:
                 print ("""            
                     =====================================================================
-                     No Bam files to be merged!
+                                           No Bam files to be merged!
                     =====================================================================  
                     """) 
                 break            
@@ -329,7 +329,7 @@ class BSMTBan(object):
                 if self.BWA_mem:        
                        print ("""            
                       =====================================================================
-                       BWA_mem BAM single end files merging begins!
+                                    BWA_mem BAM single end files merging begins!
                       =====================================================================  
                       """)            
                       for fl in os.listdir(self.BWA_mem_map_output+"/Alignment/"):
@@ -349,7 +349,7 @@ class BSMTBan(object):
                 if self.Novoalign:
                        print ("""            
                       =====================================================================
-                       Novoalign BAM single end files merging begins!
+                             Novoalign BAM single end files merging begins!
                       =====================================================================  
                       """)      
                       for fl in os.listdir(self.novo_align_map_output+"/Alignment/"):
