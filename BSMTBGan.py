@@ -494,8 +494,10 @@ class BSMTBan(object):
              #prepare annotation_files: convert gtf into genepred file
                 for fl in os.listdir(self.annotation_db):
                      if not os.path.exists(self.annotation_db+"/H37RV_refGene.txt")                   
-                        os.system("""{} -genePredExt {} """.format(self.gtfToGenePred,self.H37RV.gtf,self.annotation_db+"/H37RV_refGene.txt")                             
+                        os.system("""./{} -genePredExt {} """.format(self.gtfToGenePred,self.H37RV.gtf,self.annotation_db+"/H37RV_refGene.txt") #run abin file (first check if you have lib2 installed                            
              #run annovar annotation():
+		os.system("""chmod +x {}""".format(self.gtfToGenePred))
+	
                 if self.BWA_mem:
                     if not os.path.isdir(self.BWA_mem_map_output+"/Annotation"):
                             os.makedirs(self.BWA_mem_map_output+"/Annotation")
