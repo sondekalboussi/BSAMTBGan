@@ -1,6 +1,8 @@
 """Please make sure to install java and perl 
 converting the gtf file into genepred file must be run on linux OS (no mac/windows version)
 self.fastQFileData is a table that contains columns in the following order :file path, ID, PL, SM and LB corresponding identifiers needed to add readgroups to bam files
+install libpng12-0 :sudo apt-get install 
+
 """
 import os
 import sys
