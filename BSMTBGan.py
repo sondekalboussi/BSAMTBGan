@@ -14,12 +14,12 @@ new=open(path to txt file for time recording,"w")
 class BSMTBan(object):
     def __init__(self,Novoalign,BWA_mem,BWA_mem_map_output,novo_align_map_output,ref_genome,ref_gen_Dir,Trimmomatic,bwa,novoalign,GATK,fastq_Dir,dbSNP,illumina_adapters,samtools,picard,bedtools,bcftools,Delly,annovar,gtfToGenePred,MTdb)
       #Tool settings and paths
-      self.Novoalign=Novoalign
-      self.BWA_mem=BWA_mem
-      self.BWA_mem_map_output=BWA_mem_map_output
+      self.Novoalign=Novoalign# path to the novoalign software
+      self.BWA_mem=BWA_mem#path to bwa mem software
+      self.BWA_mem_map_output=BWA_mem_map_output# output Directory path
       self.novo_align_map_output=novo_align_map_output
-      self.ref_genome=genome#only the reference genome fil
-      self.ref_gen_Dir=ref_gen_Dir
+      self.ref_genome=genome#only the reference genome file with no extension
+      self.ref_gen_Dir=ref_gen_Dir#
       self.trimmomatic=Trimmomatic
       self.bwa=bwa
       self.novoalign=novoalign
@@ -208,8 +208,8 @@ class BSMTBan(object):
          if self.Novoalign:
               print ("""
             ==================================================================
-			  Novoalign alignment base quality score recalibration starts now!
-			==================================================================
+	     Novoalign alignment base quality score recalibration starts now!
+	    ==================================================================
             """)                             
               for fl in os.listdir(self.novo_align_map_output+"/Alignment/"):
                   os.chdir(self.novo_align_map_output+"/Alignment/")
@@ -241,8 +241,8 @@ class BSMTBan(object):
             if self.Novoalign:
                 print ("""
             ==================================================================
-			  Novoalign alignment PCR duplication marking and removal begins!
-			==================================================================
+	     Novoalign alignment PCR duplication marking and removal begins!
+	    ==================================================================
             """)              
                 for fl in os.listdir(self.novo_align_map_output+"/Alignment/"):
                     os.chdir(self.novo_align_map_output+"/Alignment/")
@@ -371,6 +371,11 @@ class BSMTBan(object):
             return "merging bam is done!" 
 
     def genome_coverag_mappability_stat(self):
+	    print ("""
+              ==================================================================
+	         Genome coverage and reads mappability statistics is starting !
+	      ==================================================================
+            """)		    
   
             if self.BWA_mem:
                 genom_cov={}#sample with genome coverage >40
@@ -403,7 +408,8 @@ class BSMTBan(object):
                                           for (i, j), (k, v) in product(genom_cov.items(), read_map.items()):   
                                                         if i==k and j>=90 or v>=40:
                                                             os.system("""cp {} {}""".format(self.BWA_mem_map_output+"/statistics/"+ID+"_stats_bwa.txt",self.BWA_mem_map_output+"/statistics/final_stat"+ID+"_stats_bwa.txt"))   
-            if self.Novoalign:
+            return ""
+	    if self.Novoalign:
                 genom_cov={}
                 read_map={}
                 if not os.path.isdir(self.novo_align_map_output+"/statistics/final_stat"):
@@ -440,6 +446,11 @@ class BSMTBan(object):
             return ""
 
     def joint_variant_calling(self):
+		print ("""
+              ==================================================================
+	         Joint variant calling (SNP and indels) using GATK is starting !
+	      ==================================================================
+            """)				    
                # joint variant call SNP and indels using GATK
                 if self.BWA_mem:
                     if not os.path.isdir(self.BWA_mem_map_output+"/Joint_Variants"):
@@ -466,6 +477,11 @@ class BSMTBan(object):
                 return "" 
         
     def structural_variation_calling(self):
+		print ("""
+              ================================================
+	         structural_variation_callingis starting !
+	      ================================================
+            """)				    
                 #structural variant (big deletion) using DELLY
                 if self.BWA_mem:
                     if not os.path.isdir(self.BWA_mem_map_output+"/struc_Variants"):
@@ -493,13 +509,17 @@ class BSMTBan(object):
                 return "" 
         
     def mapping_functional_annotation_annovar(self):
+		print ("""
+              ====================================
+	           Annotation is starting !
+	      ====================================
+            """)			  
              #prepare annotation_files: convert gtf into genepred file
                 for fl in os.listdir(self.annotation_db):
                      if not os.path.exists(self.annotation_db+"/H37RV_refGene.txt")                   
                         os.system("""./{} -genePredExt {} """.format(self.gtfToGenePred,self.H37RV.gtf,self.annotation_db+"/H37RV_refGene.txt") #run abin file (first check if you have lib2 installed                            
              #run annovar annotation():
 		os.system("""chmod +x {}""".format(self.gtfToGenePred))
-	
                 if self.BWA_mem:
                     if not os.path.isdir(self.BWA_mem_map_output+"/Annotation"):
                             os.makedirs(self.BWA_mem_map_output+"/Annotation")
