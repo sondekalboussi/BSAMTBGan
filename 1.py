@@ -513,10 +513,10 @@ class BSMTBan(object):
         """Create the gene annotation databases
            genome build identifier is H37RV this means the fasta file, the gene precidtion file must start with H37RV
            """
-		        print ("""
+           print ("""
               ====================================
-	               Annotation is starting !
-	          ====================================
+	             Annotation is starting !
+	      ====================================
             """)
             os.system("""chmod +x {}""".format(self.gtfToGenePred))
             #Download the genome assembly file
@@ -555,9 +555,6 @@ class BSMTBan(object):
                                 
                 return""
      
-[kaiwang@biocluster ~/]$ table_annovar.pl example/ex2.vcf humandb/ -buildver hg19 -out myanno -remove -protocol refGene,cytoBand,exac03,avsnp147,dbnsfp30a -operation g,r,f,f,f -nastring . -vcf           
-    [kaiwang@biocluster ~/]$ table_annovar.pl example/ex1.avinput humandb/ -buildver hg19 -out myanno -remove -protocol refGene,cytoBand,exac03,avsnp147,dbnsfp30a -operation gx,r,f,f,f -nastring . -csvout -polish -xref example/gene_xref.txt
-            
 if __name__ == '__main__':
     
     pipeline=mapping_to_ref_genome_functional_annotation(Novoalign,BWA_mem,BWA_mem_map_output,novo_align_map_output,ref_genome,ref_gen_Dir,Trimmomatic,bwa,novoalign,GATK,fastq_Dir,dbSNP,illumina_adapters,samtools,picard,bedtools,bcftools,Delly,annovar,gtfToGenePred,MTdb,H37RV_gtf)                                      
