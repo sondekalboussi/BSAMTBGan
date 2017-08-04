@@ -34,4 +34,4 @@ You need to provide a table that contains columns in the following order :file p
 
 
 
-Please cite these scripts as follows: S. Kalboussi, A. Dippenaar & T.H. Heupink,(2017),BSAMTBGan.py https://github.com/sondekalboussi/BSAMTBGan
+Please cite the code as follows: S. Kalboussi, A. Dippenaar & T.H. Heupink,(2017),BSAMTBGan https://github.com/sondekalboussi/BSAMTBGan
