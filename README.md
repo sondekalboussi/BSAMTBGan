@@ -11,7 +11,7 @@ Python pipeline for MTB reference based genome assembly
 
    Realignment around the indels and base quality qualibration using GATK
 
-    ark and remove PCR duplicates using picard
+   Mark and remove PCR duplicates using picard
 
    Merge bam files in case we have one sample with reads coming from different libraries
 
