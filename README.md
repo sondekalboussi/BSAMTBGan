@@ -5,9 +5,9 @@ Python pipeline for MTB reference based genome assembly
 
     MTB strain identification using Spotyping 
     
-    Trimming the bad quality reads using Trimmomatic
+    Trimming of the bad quality reads using Trimmomatic
 
-    Mapping using bwa and novocraft 
+    Mapping reads using bwa and novocraft to the H37Rv reference genome
 
     Realignment around the indels and base quality qualibration using GATK
 
@@ -20,6 +20,8 @@ Python pipeline for MTB reference based genome assembly
     Joint varant call using GATK haplotypeCaller
 
     Structural variant call using Delly
+    
+    Filter out all SNPs that arose in repetitive regions of the genome (please check EXclude.txt in Data directory)
 
     Gene annotation using Annovar
 
