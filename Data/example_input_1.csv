@@ -1,0 +1,8 @@
+File,Machine.Lane (ID:),Technology (PL:),Sample (SM:),Lib (LB:)
+/AB123C/run1/sequencing centre_name_1_R1.fq.gz,H0164.2,illumina,AB123C,L1
+/AB123C/run1/sequencing centre_name_1_R2.fq.gz,H0164.2,illumina,AB123C,L1
+/AB123C/run1/sequencing centre_name_2_R1.fq.gz,H0164.2,illumina,AB123C,L2
+/AB123C/run1/sequencing centre_name_2_R2.fq.gz,H0164.2,illumina,AB123C,L2
+/AB123C/run1/sequencing centre_name_1.fq.gz,H0164.2,illumina,AB123C,L1
+/AB123C/run1/sequencing centre_name_2.fq.gz,H0164.2,illumina,AB123C,L2
+/AB124C/run1/sequencing centre_name_2.fq.gz,H0164.2,illumina,AB124C,L1
