@@ -20,8 +20,8 @@ Python pipeline for MTB reference based genome assembly
 
     Gene annotation using Annovar
 
-Converting the gtf file into genepred file for Annovar gene annotation must be run on linux OS (no mac/windows version),please install libpng12-0 :sudo apt-get install to be able to run gtfToGenePred code (http://hgdown
-load.soe.ucsc.edu/admin/exe/linux.x86_64/).
+Converting the gtf file into genepred file for Annovar gene annotation must be run on linux OS (no mac/windows version),please install libpng12-0 :sudo apt-get install to be able to run gtfToGenePred code
+(http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/).
 
 
 You need to provide a table that contains columns in the following order :file path, ID, PL, SM and LB corresponding to identifiers needed to add readgroups to run trimmomatic (Please check Data folder to find a template of the table).
