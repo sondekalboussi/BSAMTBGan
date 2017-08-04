@@ -3,27 +3,27 @@ Python pipeline for MTB reference based genome assembly
 
 # Pipeline workflow
 
-    MTB strain identification using Spotyping 
+   MTB strain identification using Spotyping 
     
-    Trimming of the bad quality reads using Trimmomatic
+   Trimming of the bad quality reads using Trimmomatic
 
-    Mapping reads using bwa and novocraft to the H37Rv reference genome
+   Mapping reads using bwa and novocraft to the H37Rv reference genome
 
-    Realignment around the indels and base quality qualibration using GATK
+   Realignment around the indels and base quality qualibration using GATK
 
-    Mark and remove PCR duplicates using picard
+    ark and remove PCR duplicates using picard
 
-    Merge bam files in case we have one sample with reads coming from different libraries
+   Merge bam files in case we have one sample with reads coming from different libraries
 
-    Check genome coverage and reads mappability: Only accept reads with genome coverage >=40 and/or reads mappability >=90
+   Check genome coverage and reads mappability: Only accept reads with genome coverage >=40 and/or reads mappability >=90
 
-    Joint varant call using GATK haplotypeCaller
+   Joint varant call using GATK haplotypeCaller
 
-    Structural variant call using Delly
+   Structural variant call using Delly
     
-    Filter out all SNPs that arose in repetitive regions of the genome (please check EXclude.txt in Data directory)
+   Filter out all SNPs that arose in repetitive regions of the genome (please check Exclude.txt in Data directory)
 
-    Gene annotation using Annovar
+   Gene annotation using Annovar
 
 Converting the gtf file into genepred file for Annovar gene annotation must be run on linux OS (no mac/windows version),please install libpng12-0 :sudo apt-get install to be able to run  code
 You can download the gtfToGenePred code from http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/.
