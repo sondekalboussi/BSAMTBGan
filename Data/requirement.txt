@@ -1,0 +1,20 @@
+#Programming languages
+python
+perl
+java
+
+#Libraries
+libpng12-0
+
+#software
+Bwa
+Novocraft
+GATK
+Samtools
+Annovar
+Bedtools
+Trimmomatic
+picard
+bcftools
+Delly
+Spotyping
