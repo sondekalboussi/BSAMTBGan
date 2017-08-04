@@ -2,17 +2,20 @@
 Python pipeline for MTB reference based genome assembly
 
 # Pipeline workflow
+
+    MTB strain identification using Spotyping 
+    
     Trimming the bad quality reads using Trimmomatic
 
     Mapping using bwa and novocraft 
 
-    Realignment around the ondels and base quality qualibration using GATK
+    Realignment around the indels and base quality qualibration using GATK
 
     Mark and remove PCR duplicates using picard
 
-    Merge bam files in case we have one sample having reads coming from different libraries
+    Merge bam files in case we have one sample with reads coming from different libraries
 
-    Check genome coverage and reads mappability: we accept reads with genome coverage >=40 and/or reads mappability >=90
+    Check genome coverage and reads mappability: Only accept reads with genome coverage >=40 and/or reads mappability >=90
 
     Joint varant call using GATK haplotypeCaller
 
