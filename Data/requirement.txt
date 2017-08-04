@@ -18,3 +18,4 @@ picard
 bcftools
 Delly
 Spotyping
+blast
