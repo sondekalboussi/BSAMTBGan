@@ -20,10 +20,12 @@ Python pipeline for MTB reference based genome assembly
    Joint varant call using GATK haplotypeCaller
 
    Structural variant call using Delly
+   
+   Gene annotation using Annovar
     
    Filter out all SNPs that arose in repetitive regions of the genome (please check Exclude.txt in Data directory)
 
-   Gene annotation using Annovar
+   
 
 Converting the gtf file into genepred file for Annovar gene annotation must be run on linux OS (no mac/windows version),please install libpng12-0 :sudo apt-get install to be able to run  code
 You can download the gtfToGenePred code from http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/.
