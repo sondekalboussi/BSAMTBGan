@@ -33,7 +33,7 @@ Converting the gtf file into genepred file for Annovar gene annotation must be r
 You can download the gtfToGenePred code from http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/.
 
 
-Please provide samples fastq files csv file that contains columns in the following order :Fastq file path, ID, PL, SM and LB for each sample corresponding to identifiers needed to add readgroups to run trimmomatic (Please check Data folder to find a template of the table).
+Please provide samples fastq files csv file that contains columns in the following order :Fastq file path, ID, PL, SM and LB for each sample corresponding to identifiers needed to add readgroups to run trimmomatic (Please check Data folder to find a template of the table). 
 
 
 
