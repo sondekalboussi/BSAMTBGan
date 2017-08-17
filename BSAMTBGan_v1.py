@@ -19,7 +19,7 @@ class BSMTBan(object):
           self.results=self.global_Dir+"/Results/"#results folder
           self.tools=Tools#Tools binaries in the cluster
           self.ref_gen_Dir=self.global_Dir+"/Software/USAP/Reference/"#H37rv reference
-          self.ref_genome=self.ref_gen_Dir+user_ref++"/Fasta/"#fasta file of reference genome
+          self.ref_genome=self.ref_gen_Dir+user_ref+"/Fasta/"#fasta file of reference genome
           self.novoalign=self.tools+"/novocraft/3.02.07/bin/"# path to the novocraft software
           self.BWA=self.tools+"/0.7.12/bin/"#path to bwa mem software
           self.trimmomatic="/home/opt/software/Trimmomatic-0.36/"
