@@ -15,10 +15,10 @@ class BSMTBGan(object):
     def __init__(global_Dir,user_ref,fastq_Dir,File_table,mappers):
       
       #Settings parameters and paths
-          self.global_Dir=global_Dir# path to home directory in the cluster or local machine
+          self.global_Dir=global_Dir# path to home directory in the cluster or local machine where the fastq files
           self.results=self.global_Dir+"/Results/"#results folder
           self.tools=Tools#Tools binaries in the cluster
-          self.ref_gen_Dir=self.global_Dir+"/Software/USAP/Reference/"#H37rv reference
+          self.ref_gen_Dir=self.global_Dir+"/Reference/"#H37rv reference
           self.ref_genome=self.ref_gen_Dir+user_ref+"/Fasta/"#fasta file of reference genome
           self.novoalign=self.tools+"/novocraft/3.02.07/bin/"# path to the novocraft software
           self.BWA=self.tools+"/0.7.12/bin/"#path to bwa mem software
@@ -31,13 +31,14 @@ class BSMTBGan(object):
           self.Delly=self.globalDir+"/Software/BSAMTBan/Tools_new/delly/src/"
           self.annovar=self.tools+"/ANNOVAR/2017-06-01/"
           self.fastq_Dir=self.global_Dir+"/"+fastq_Dir
-          self.dbSNp=self.globalDir+"/Software/USAP/Reference/"+userRef+"/dbSNP/"
-          self.illumina_adapters=self.globalDir+"/Software/USAP/Tools/illumina_adapters.fna.fasta"
-          self.fastQFileData=File_table 
-          self.gtfToGenePred=self.globalDir+"/Software/BSAMTBan/Tools_new/dbMTB/"#bin file
-          self.H37RV_gtf=#gtf file
-          self.TBdb=self.globalDir+"/Software/BSAMTBan/Tools_new/dbMTB/"
-          self.spotyping=self.globalDir+"/Software/BSAMTBan/Tools/SpoTyping-2.1/SpoTyping-v2.1-commandLine/"
+          #self.dbSNp=self.globalDir+"/Reference/"+userRef+"/dbSNP/"
+          self.illumina_adapters=self.globalDir+"/Tools/illumina_adapters.fna.fasta"
+          self.fastQFileData=File_table #table that contains columns in the following order :file path, ID, PL, SM and LB corresponding identifiers needed to add readgroups to bam files
+          self.TBdb=self.tools+"/dbMTB/"
+	  self.gtfToGenePred=self.tools+"/dbMTB/gtfToGenePred"#gtfToGenePred bin file
+          self.H37RV_gtf=self.tools+"/dbMTB/H37RV_gtf"#gtf file
+          self.spotyping=self.tools+"/SpoTyping-2.1/SpoTyping-v2.1-commandLine/"
+          
     print 
     print
     print "_____________________________________________________________________________________________"
