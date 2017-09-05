@@ -476,20 +476,20 @@ class BSMTBGan:
         return""
         
 def main():
-        pipeline=BSMTBGan(working_Dir_"Mycobacterium_tuberculosis_h37rv","Mycobacterium_tuberculosis_h37rv.fa","Fastq.csv", mappers=["BWA","Novoalign"])
+        pipeline=BSMTBGan(working_Dir,"Mycobacterium_tuberculosis_h37rv","Mycobacterium_tuberculosis_h37rv.fa","Fastq.csv", mappers=["BWA","Novoalign"])
         try:
-            #print pipeline.process_ref_genome()
-            #print pipeline.spoligotyping()
-            #print pipeline.trimming()
-            #print pipeline.Mapping()
-            #print pipeline.PCR_dup_mark_remov()
+            print pipeline.process_ref_genome()
+            print pipeline.spoligotyping()
+            print pipeline.trimming()
+            print pipeline.Mapping()
+            print pipeline.PCR_dup_mark_remov()
             print pipeline.realignment()
-            #print pipeline.base_qual_recal()
-            #print pipeline.merge_bam()
-            #print pipeline.genome_coverag_mappability_stat()
-            #print pipeline.joint_variant_calling()
-            #print pipeline.structural_variation_calling()
-            #print pipeline.Gene_annotation_annovar()
+            print pipeline.base_qual_recal()
+            print pipeline.merge_bam()
+            print pipeline.genome_coverag_mappability_stat()
+            print pipeline.joint_variant_calling()
+            print pipeline.structural_variation_calling()
+            print pipeline.Gene_annotation_annovar()
         except IOError as e:
             print("I/O error: {0}".format(e))    
     
