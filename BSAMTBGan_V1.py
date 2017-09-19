@@ -12,6 +12,9 @@ import sys
 import csv
 from itertools import product
 import fileinput
+from datetime import datetime
+start_time = datetime.now()
+new=open(path to txt file for time recording,"w")
 class BSMTBGan(object):
     def __init__(self,global_Dir,user_ref,user_ref_fasta,File_table,mappers):
       
@@ -534,5 +537,7 @@ def main():
             print("I/O error: {0}".format(e))    
     
 if __name__ == '__main__':main()
-
+end_time = datetime.now()
+new.write('Pipeline execution time: {}'.format(end_time - start_time))
+new.close()
 
