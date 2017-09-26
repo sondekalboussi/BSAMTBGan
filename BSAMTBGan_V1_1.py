@@ -5,7 +5,7 @@ self.fastQFileData is a table that contains columns in the following order :fast
 install libpng12-0 :sudo apt-get install
 Change the genome fasta header to NC-000962-3-H37Rv, the olde header will cause a bug for novoalign mapper
 change contigs name in the dbSNP to  NC-000962-3-H37Rv
-remove trailing white space at dbsnp.csv fiel
+remove trailing white space at dbsnp.csv file
 """
 import os
 import sys
