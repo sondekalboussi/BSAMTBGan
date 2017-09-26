@@ -19,6 +19,8 @@ Python pipeline for MTB reference based genome assembly
       coverage >=40 and/or reads mappability >=90
 
       Joint varant call using GATK haplotypeCaller
+      
+      Variants hard filtering
 
       Structural variant call using Delly
 
