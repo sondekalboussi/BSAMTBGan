@@ -338,7 +338,6 @@ class BSMTBGan(object):
             for map in self.mappers:
                 MAP={}
                 COV={}
-                '''
                 if not os.path.isdir(self.results+map+"/statistics"):
                     os.makedirs(self.results+map+"/statistics")
                 if len(os.listdir(self.results+map+"/Alignment/Final_Bam/"))== 0:
@@ -354,7 +353,7 @@ class BSMTBGan(object):
                             output3=self.results+map+"/statistics/"+fl.replace(".bam",".stats")
                             os.system("""java -jar {} -T DepthOfCoverage -R {} -I {} -o {} --omitDepthOutputAtEachBase --omitIntervalStatistics --omitLocusTable""".format(self.GATK,self.ref,input,output1))
                             os.system("""samtools flagstat {} > {}""".format(input,output2))
-                            os.system("""samtools stats {} > {}""".format(input,output3))'''
+                            os.system("""samtools stats {} > {}""".format(input,output3))
                 for fl in os.listdir(self.results+map+"/statistics/"):
                    os.chdir(self.results+map+"/statistics/")
                    ID=fl.split("_")[0]
@@ -372,23 +371,22 @@ class BSMTBGan(object):
                                 y=float(x)
                                 COV[ID]=y
                 new=open(self.results+map+"/statistics/mapping_stat.txt","w")
-                #new1=open(self.results+map+"/statistics/Failed_mapping_stat.txt","w")
+                new1=open(self.results+map+"/statistics/Failed_mapping_stat.txt","w")
                 new.write("""{}{}{}{}{}{}""".format("Sample","\t","%Mapped_reads","\t","Genome_coverage mean", "\n"))
-                #new1.write("""{}{}{}{}{}{}""".format("Sample","\t","%Mapped_reads","\t","Genome_coverage mean", "\n"))
+                new1.write("""{}{}{}{}{}{}""".format("Sample","\t","%Mapped_reads","\t","Genome_coverage mean", "\n"))
                 for key in MAP.keys():
                     if key in COV.keys():
-                        if MAP[key]>=90 or COV[key]>=40 :
+                        if MAP[key]>=90 and COV[key]>=40 :
                             if key not in self.valide_bam:
                                 self.valide_bam.append(key)
                             new=open(self.results+map+"/statistics/mapping_stat.txt","a")
                             new.write("""{} {}  {}{}""".format(key,MAP[key],COV[key],"\n"))
-                    '''
+                    
                         else:
                             new1=open(self.results+map+"/statistics/Failed_mapping_stat.txt","a")
-                            new1.write("""{} {}  {}{}""".format(key,MAP[key],COV[key],"\n"))'''
+                            new1.write("""{} {}  {}{}""".format(key,MAP[key],COV[key],"\n"))
                 new.close()
-                            #new1.close()
-            print self.valide_bam
+                new1.close()
             return " Statistics are done!"
     
     # Joint variant call SNP and indels using GATK
@@ -440,6 +438,11 @@ class BSMTBGan(object):
          return " variant_calling_hard_filtering is done!"
     #number of SNPs identified with average quality scores and average mapping quality for filtered snp.csv and raw.vcf, parse the MQ mapping quality, QUAl field: quality score, wc - l nbre of snp then compute average
     def SNP_statistics(self):
+        print ("""
+            ==================================================================
+                  SNP statistics is starting !
+            ==================================================================
+            """)
         for map in self.mappers:
             new=open(self.results+map+"/statistics/VCF_stat.txt","w")
             new.write("""{}{}{}{}{}{}{}{}""".format("Sample","\t","Nbre_SNP","\t","AV_MQ","\t","AV_QUAL","\n"))
@@ -542,7 +545,7 @@ def main():
             #print pipeline.joint_variant_calling_hard_filtering()
             #print pipeline.SNP_statistics()
             #print pipeline.Genotype_structural_variation_calling()
-            print pipeline.Gene_annotation_annovar()
+            #print pipeline.Gene_annotation_annovar()
         except IOError as e:
             print("I/O error: {0}".format(e))    
     
