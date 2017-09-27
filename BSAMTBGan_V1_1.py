@@ -347,7 +347,7 @@ class BSMTBGan(object):
                     Final_Bam=self.results+map+"/Alignment/Final_Bam/"
                 for fl in os.listdir(Final_Bam):
                         os.chdir(Final_Bam)
-                        if fl.endswith("_recal_sorted.bam") or "_merged_" in fl:
+                        if fl.endswith("_recal_sorted.bam") or fl.endswith("_merged_"+map+ ".bam"):
                             input=os.path.join(Final_Bam,fl)
                             output1=self.results+map+"/statistics/"+fl.replace(".bam",".coverage")
                             output2=self.results+map+"/statistics/"+fl.replace(".bam",".flagstat")
@@ -444,17 +444,8 @@ class BSMTBGan(object):
                             L=line[7].split(";")[8]
                             if "MQ" in L:
                                 AV_MQ+=float(line[7].split(";")[8].split("=")[1])/Nbre_SNP
-                            #print fl,map,total
                     new.write("""{}{}{}{}{}{}{}{}""".format(fl.split("_")[0],"\t",Nbre_SNP,"\t",AV_MQ,"\t",AV_QUAL,"\n"))
             new.close()
-                              #print ,map,AV_MQ
-# print line[7].split(";")[8]
-                                #print map
-                                #print Nbre_SNP
-                                #print AV_QUAL
-                                # print AV_MQ
-    
-    
         return "VCF statistics is done"
     #structural variant identification(big deletion) using DELLY
     def Genotype_structural_variation_calling(self):
