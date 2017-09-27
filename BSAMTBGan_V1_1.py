@@ -5,7 +5,7 @@ self.fastQFileData is a table that contains columns in the following order :fast
 install libpng12-0 :sudo apt-get install
 Change the genome fasta header to NC-000962-3-H37Rv, the olde header will cause a bug for novoalign mapper
 change contigs name in the dbSNP to  NC-000962-3-H37Rv
-remove trailing white space at dbsnp.csv file
+remove trailing white space at dbsnp.csv fiel
 """
 import os
 import sys
@@ -145,12 +145,10 @@ class BSMTBGan(object):
                             output3=self.results+"Trimming/"+SM+"_"+ID+"_"+LB+"_"+PL+"_R2.PE_paired_trimed.fq"
                             output4=self.results+"Trimming/"+SM+"_"+ID+"_"+LB+"_"+PL+"_R2.PE_unpaired_trimed.fq"
                             os.system("""java -jar {}trimmomatic-0.36.jar PE -threads 4 -phred33 {} {} {} {} {} {} ILLUMINACLIP:TruSeq3-PE:2:30:10 LEADING:3 TRAILING:3 MINLEN:36""".format(self.trimmomatic,read1,read2,output1,output2,output3,output4))#change extension of trimmomatic for the cluster
-
-    
     # Create a dictionary where the keys are samples ID and value is the reads ID when they are coming from more than sequencing library so later you can merge all the output for the same sample 
         for fl in os.listdir(self.results+"Trimming/"):
-                        os.chdir(self.results+"Trimming/")
-                        if fl.endswith("R1.PE_paired_trimed.fq"):
+                os.chdir(self.results+"Trimming/")
+                if fl.endswith("R1.PE_paired_trimed.fq"):
                                     IDPE=fl.split("R1.PE_paired_trimed.fq")[0]
                                     sm=IDPE.split("_")[0]
                                     lib=IDPE.split("_")[2]
@@ -158,7 +156,7 @@ class BSMTBGan(object):
                                         self.libraryPE[sm]=[lib]
                                     else:
                                         self.libraryPE[sm].append(lib)
-                        if fl.endswith("_SE_trimed.fq"):
+                if fl.endswith("_SE_trimed.fq"):
                                     IDSE=fl.split("_SE_trimed.fq")[0]
                                     sm=IDSE.split("_")[0]
                                     lib=IDSE.split("_")[2]
@@ -210,12 +208,12 @@ class BSMTBGan(object):
                             if map=="Novoalign":
                               os.system("""{}novoalign -d {} -f {} {} -o SAM '{}' > {}""".format(self.novocraft,self.ref_genome+self.fasta.split(".")[0]+".nix",R1,R2,readGroup,output_map))
                               os.system("""samtools view -Sb -o {} {}""".format(self.results+map+"/Alignment/"+SM+"_"+LB+"_PE_"+map+".bam",output_map))
-            for map in self.mappers:
+        for map in self.mappers:
                 for fl in os.listdir(self.results+map+"/Alignment"):
                     os.chdir(self.results+map+"/Alignment")
-                    if fl.endswith(".bam"):
-                            os.system("""JAVA -jar {} SortSam INPUT={} OUTPUT={} SORT_ORDER=coordinate""".format(self.picard,fl,fl.replace(".bam","_sorted.bam")))
-                            os.system("""JAVA -jar {} BuildBamIndex INPUT={}""".format(self.picard,fl.replace(".bam","_sorted.bam")))
+                    if fl.endswith(".sam"):
+                            os.system("""JAVA -jar {} SortSam INPUT={} OUTPUT={} SORT_ORDER=coordinate""".format(self.picard,fl,fl.replace(".sam","_sorted.bam")))
+                            os.system("""JAVA -jar {} BuildBamIndex INPUT={}""".format(self.picard,fl.replace(".sam","_sorted.bam")))
         return "Mapping is done"
     #Mark and remove the PCR duplicates
     def PCR_dup_mark(self):
@@ -331,6 +329,7 @@ class BSMTBGan(object):
         return "The Fianl bam files are ready for further processing!"
       # Check the mapping quality only samples with >=90% mapped reads and/or genome coverage>=40% are accepted
     def mapping_stat(self):
+      
             print ("""
                  ==================================================================
                    Genome coverage and reads mappability statistics are starting !
@@ -339,6 +338,7 @@ class BSMTBGan(object):
             for map in self.mappers:
                 MAP={}
                 COV={}
+                '''
                 if not os.path.isdir(self.results+map+"/statistics"):
                     os.makedirs(self.results+map+"/statistics")
                 if len(os.listdir(self.results+map+"/Alignment/Final_Bam/"))== 0:
@@ -347,14 +347,14 @@ class BSMTBGan(object):
                     Final_Bam=self.results+map+"/Alignment/Final_Bam/"
                 for fl in os.listdir(Final_Bam):
                         os.chdir(Final_Bam)
-                        if fl.endswith("_recal_sorted.bam") or fl.endswith("_merged_"+map+ ".bam"):
+                        if fl.endswith("_recal_sorted.bam") or "_merged_" in fl:
                             input=os.path.join(Final_Bam,fl)
                             output1=self.results+map+"/statistics/"+fl.replace(".bam",".coverage")
                             output2=self.results+map+"/statistics/"+fl.replace(".bam",".flagstat")
                             output3=self.results+map+"/statistics/"+fl.replace(".bam",".stats")
                             os.system("""java -jar {} -T DepthOfCoverage -R {} -I {} -o {} --omitDepthOutputAtEachBase --omitIntervalStatistics --omitLocusTable""".format(self.GATK,self.ref,input,output1))
                             os.system("""samtools flagstat {} > {}""".format(input,output2))
-                            os.system("""samtools stats {} > {}""".format(input,output3))
+                            os.system("""samtools stats {} > {}""".format(input,output3))'''
                 for fl in os.listdir(self.results+map+"/statistics/"):
                    os.chdir(self.results+map+"/statistics/")
                    ID=fl.split("_")[0]
@@ -372,15 +372,23 @@ class BSMTBGan(object):
                                 y=float(x)
                                 COV[ID]=y
                 new=open(self.results+map+"/statistics/mapping_stat.txt","w")
+                #new1=open(self.results+map+"/statistics/Failed_mapping_stat.txt","w")
                 new.write("""{}{}{}{}{}{}""".format("Sample","\t","%Mapped_reads","\t","Genome_coverage mean", "\n"))
+                #new1.write("""{}{}{}{}{}{}""".format("Sample","\t","%Mapped_reads","\t","Genome_coverage mean", "\n"))
                 for key in MAP.keys():
                     if key in COV.keys():
-                        if key not in self.valide_bam:
-                            self.valide_bam.append(key)
-                        if MAP[key]>=90 and COV[key]>=40 :
+                        if MAP[key]>=90 or COV[key]>=40 :
+                            if key not in self.valide_bam:
+                                self.valide_bam.append(key)
                             new=open(self.results+map+"/statistics/mapping_stat.txt","a")
                             new.write("""{} {}  {}{}""".format(key,MAP[key],COV[key],"\n"))
+                    '''
+                        else:
+                            new1=open(self.results+map+"/statistics/Failed_mapping_stat.txt","a")
+                            new1.write("""{} {}  {}{}""".format(key,MAP[key],COV[key],"\n"))'''
                 new.close()
+                            #new1.close()
+            print self.valide_bam
             return " Statistics are done!"
     
     # Joint variant call SNP and indels using GATK
@@ -397,15 +405,22 @@ class BSMTBGan(object):
                     Final_Bam=self.results+map+"/Alignment/"
                 else:
                     Final_Bam=self.results+map+"/Alignment/Final_Bam/"
-                for fl in os.listdir(Final_Bam):
-                    os.chdir(Final_Bam)
-                    if fl.endswith("_recal_sorted.bam") or "_merged_" in fl:
-                        input=os.path.join(Final_Bam,fl)
-                        output=os.path.join(self.results+map+"/Joint_variants/",fl.replace(".bam","_GATK_snps_indels.vcf"))
-                        os.system("""java -jar {} -T HaplotypeCaller -R {} -I {} -stand_call_conf 30 -o {}""".format(self.GATK,self.ref,input,output))#add path gatk cluster
+                for i in self.valide_bam:
+                    for fl in os.listdir(Final_Bam):
+                        if i in fl:
+                            if fl.endswith("_recal_sorted.bam") or "_merged_" in fl:
+                                os.chdir(Final_Bam)
+                                input=os.path.join(Final_Bam,fl)
+                                output=os.path.join(self.results+map+"/Joint_variants/",fl.replace(".bam","_GATK_snps_indels.vcf"))
+                                os.system("""java -jar {} -T HaplotypeCaller -R {} -I {} -stand_call_conf 30 -o {}""".format(self.GATK,self.ref,input,output))#add path gatk cluster
             return "Joint variant calling (SNP and indels) using GATK is done!"
     #non-model organism, so variant re calibration isn't possible
     def joint_variant_calling_hard_filtering(self):
+         print ("""
+            ==================================================================
+                  Joint_variant_calling_hard_filtering is starting !
+            ==================================================================
+            """)
          for map in self.mappers:
              for fl in os.listdir(self.results+map+"/Joint_Variants"):
                  os.chdir(self.results+map+"/Joint_Variants")
@@ -440,7 +455,6 @@ class BSMTBGan(object):
                             Nbre_SNP+=1
                             line=lines.split("\t")
                             AV_QUAL+=float(line[5])/Nbre_SNP
-                            #AV_MQ=float(line[7].split(";")[8])
                             L=line[7].split(";")[8]
                             if "MQ" in L:
                                 AV_MQ+=float(line[7].split(";")[8].split("=")[1])/Nbre_SNP
@@ -455,22 +469,22 @@ class BSMTBGan(object):
                   ======================================================
         """)                    
         for map in self.mappers:
-            if not os.path.isdir(self.results+map+"/Struc_Variants"):
-               os.makedirs(self.results+map+"/Struct_Variants")
+            if not os.path.exists(self.results+map+"/Struc_Variants"):
+                    os.makedirs(self.results+map+"/Struc_Variants")
             if len(os.listdir(self.results+map+"/Alignment/Final_Bam/"))== 0:
                 Final_Bam=self.results+map+"/Alignment/"
             else:
                 Final_Bam=self.results+map+"/Alignment/Final_Bam/"
-            for fl in os.listdir(Final_Bam):
-                os.chdir(Final_Bam)
-                if fl.endswith("_recal_sorted.bam") or "_merged_" in fl:
-                    input=os.path.join(Final_Bam,fl)
-                    output=self.results+map+"/Struc_Variants/"+fl.replace("_realg_sorted.bam","_SV")
-                    os.system("""delly call -t DEL -g {} -o {}.bcf {}""".format(self.ref,output,input))#add delly
-                    os.system("""bcftools view {}.bcf > {}.vcf """.format(output,output))#convert bcf to vcf
-                                
-        return "GSV is done!"
-        
+            for i in self.valide_bam:
+                for fl in os.listdir(Final_Bam):
+                    if i in fl:
+                        if fl.endswith("_recal_sorted.bam") or "_merged_" in fl:
+                            os.chdir(Final_Bam)
+                            input=input=os.path.join(Final_Bam,fl)
+                            output=self.results+map+"/Struc_Variants/"+fl.replace("_realg_sorted.bam","_SV")
+                            os.system("""delly call -t DEL -g {} -o {}.bcf {}""".format(self.ref,output,input))#add delly
+                            os.system("""bcftools view {}.bcf > {}.vcf """.format(output,output))#convert bcf to vcf
+        return "GSV is done!"        
     #SNPs and Indels are annotated as intergenic or genic and for amino acid level changes using ANNOVAR
     def Gene_annotation_annovar(self):
         """Create the gene annotation databases:gtf file and genome assembly fasta
@@ -481,9 +495,10 @@ class BSMTBGan(object):
                    Annotation is starting !
               ====================================
         """)
+        '''
         if not os.path.isdir(self.TBdb):
-            os.makedirs(self.TBdb)              
-        #download the genome assembly file from Ensembl
+            os.makedirs(self.TBdb)
+        ##download the genome assembly file from Ensembl
         os.system("wget ftp://ftp.ensemblgenomes.org/pub/bacteria/release-36/fasta/bacteria_0_collection/mycobacterium_tuberculosis_h37rv/dna/Mycobacterium_tuberculosis_h37rv.ASM19595v2.dna.toplevel.fa.gz -P "+self.TBdb)
         os.system("gunzip "+self.TBdb+"/Mycobacterium_tuberculosis_h37rv.ASM19595v2.dna.toplevel.fa.gz")
         #convert gene definition file into gene prediction file
@@ -491,9 +506,9 @@ class BSMTBGan(object):
         for fl in os.listdir(self.TBdb):
             if not os.path.exists(self.TBdb+"/H37Rv_refGene.txt")  and not os.path.exists(self.TBdb+"/H37Rv_refGeneMrna.fa"):
                 os.system(""".{} -genePredExt {} {}""".format(self.gtfToGenePred,self.H37RV_gtf,self.TBdb+"/H37Rv_refGene.txt")) #run a bin file (first check if you have lib2 installed, only on linux OS
-        #Generate a transcript fasta file from the genome assembly file
-                os.system("""perl {}/retrieve_seq_from_fasta.pl --format refGene --seqfile {} {} --out {}""".format(self.annovar,self.ref,self.TBdb+"/H37Rv_refGene.txt",self.TBdb+"/H37Rv_refGeneMrna.fa"))
-        #Convert the VCF to annovar input format file
+        ##Generate a transcript fasta file from the genome assembly file
+                os.system("""perl {}/retrieve_seq_from_fasta.pl --format refGene --seqfile {} {} --out {}""".format(self.annovar,self.ref,self.TBdb+"/H37Rv_refGene.txt",self.TBdb+"/H37Rv_refGeneMrna.fa"))'''
+        ##run annovar gene annotation()/ Convert the VCF to annovar input format file if you want to use annovar command with avinput but u need to modify the command first:
         for map in self.mappers:
             if not os.path.isdir(self.results+map+"/Annotation"):
                 os.makedirs(self.results+map+"/Annotation")
@@ -501,32 +516,32 @@ class BSMTBGan(object):
                 os.chdir(self.results+map+"/Joint_Variants/")
                 if fl.endswith("_snps_indels.vcf"):
                         input=fl
-                        id=fl.splitext("_")[0]
-                        output=self.results+map+"/Joint_Variants/"+fl.replace("_snps_indels.vcf",".avinput")
-                        os.system("""perl {}convert2annovar.pl -format vcf4 {} > {}""".format(self.annovar,input,output))
-                        os.system("""sed -i -e 's/NC-000962-3-H37Rv/Chromosome/g' {}""" .format(input))
-        #run annovar gene annotation():
+                        id=fl.split("_")[0]
+                        #output=self.results+map+"/Joint_Variants/"+fl.replace("_snps_indels.vcf",".avinput")
+                        #os.system("""perl {}convert2annovar.pl -format vcf4 {} > {}""".format(self.annovar,input,output))
+                        #os.system("""sed -i -e 's/NC-000962-3-H37Rv/Chromosome/g' {}""" .format(input))'''
+                        #os.system("""perl {}table_annovar.pl {} {} --vcfinput --outfile {} -buildver H37Rv --protocol refGene -operation g """.format(self.annovar,input,self.TBdb,id+"_"+map))
+                        #os.system("""mv {} {}""".format(self.results+map+"/Joint_Variants/"+id+"_"+map+".H37Rv_multianno.vcf",self.results+map+"/Annotation/"+id+"_"+map+".H37Rv_multianno.vcf"))
                         os.system("""perl {}table_annovar.pl {} {} --vcfinput --outfile {} -buildver H37Rv --protocol refGene -operation g """.format(self.annovar,input,self.TBdb,id+"_"+map))
                         os.system("""mv {} {}""".format(self.results+map+"/Joint_Variants/"+id+"_"+map+".H37Rv_multianno.vcf",self.results+map+"/Annotation/"+id+"_"+map+".H37Rv_multianno.vcf"))
-
         return " Annovar Gene annotation is done!"
         
 def main():
-        pipeline=BSMTBGan("/Users/sondeskalboussi/Desktop/BSAMGan_test1","Mycobacterium_tuberculosis_h37rv","Mycobacterium_tuberculosis_h37rv.fa","/Users/sondeskalboussi/Desktop/Fastq.csv", mappers=["BWA"])
+        pipeline=BSMTBGan("/Users/sondeskalboussi/Desktop/BSAMGan_test1","Mycobacterium_tuberculosis_h37rv","Mycobacterium_tuberculosis_h37rv.fa","/Users/sondeskalboussi/Desktop/BSAMGan_test/Fastq.csv", mappers=["BWA"])
         try:
-            print pipeline.process_ref_genome()
-            print pipeline.spoligotyping()
-            print pipeline.trimming()
-            print pipeline.Mapping()
-            print pipeline.PCR_dup_mark()
-            print pipeline.realignment()
-            print pipeline.base_qual_recal()
-            print pipeline.merge_bam()
-            print pipeline.mapping_stat()
-            print pipeline.joint_variant_calling()
-            print pipeline.joint_variant_calling_hard_filtering()
-            print pipeline.SNP_statistics()
-            print pipeline.Genotype_structural_variation_calling()
+            #print pipeline.process_ref_genome()
+            #print pipeline.spoligotyping()
+            #print pipeline.trimming()
+            #print pipeline.Mapping()
+            #print pipeline.PCR_dup_mark()
+            #print pipeline.realignment()
+            #print pipeline.base_qual_recal()
+            #print pipeline.merge_bam()
+            #print pipeline.mapping_stat()
+            #print pipeline.joint_variant_calling()
+            #print pipeline.joint_variant_calling_hard_filtering()
+            #print pipeline.SNP_statistics()
+            #print pipeline.Genotype_structural_variation_calling()
             print pipeline.Gene_annotation_annovar()
         except IOError as e:
             print("I/O error: {0}".format(e))    
